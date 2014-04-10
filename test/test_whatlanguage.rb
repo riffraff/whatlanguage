@@ -125,4 +125,14 @@ class TestWhatLanguage < Test::Unit::TestCase
     skip unless defined? UnicodeUtils
     assert_equal "âncora cor âmbar".language, "ÂNCORA COR ÂMBAR".language
   end
+
+  def test_badly_detected_italian
+    require 'pry'
+    wl = WhatLanguage.new(:english, :italian)
+    open(File.join(File.dirname(__FILE__), 'fixtures', 'badly_detected_italian.txt')) do |fd|
+      fd.each_line do |line|
+        assert_equal :english, wl.language(line), line
+      end
+    end
+  end
 end
